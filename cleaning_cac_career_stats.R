@@ -1,5 +1,6 @@
 library("tidyverse")
 
+
 #takes and tidys an input from the scraped data
 get_tidy_total_stats <- function(input_stats){
   input_stats %>% 

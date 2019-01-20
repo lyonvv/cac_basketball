@@ -1,18 +1,24 @@
 library("tidyverse")
 
+source("~/Desktop/r_projects/cac_basketball/cleaning_cac_career_stats.R")
 
-get_career_totals <- function(input_stats){
-  input_stats %>%
-    group_by(player_id, player_name) %>% 
-    summarise(games = sum(games), `3pm` = sum(`3pm`), `3pa` = sum(`3pa`),
+raw_stats <- read_csv("~/Desktop/r_projects/cac_basketball/all_cac_players_ever_stats.csv")
+
+tidy_stats <- get_tidy_total_stats(raw_stats)
+
+#takes a grouped data frame and adds up total stats, could be used for career, 
+#or just for a specific subset, for example, for a specific level
+get_totals <- function(grouped_input_stats){
+    summarise(grouped_input_stats, games = sum(games), `3pm` = sum(`3pm`), `3pa` = sum(`3pa`),
               ftm = sum(ftm), fta = sum(fta), oreb = sum(oreb), dreb = sum(dreb),
               treb = sum(treb), ast = sum(ast), stl = sum(stl), blk = sum(blk), pts = sum(pts))
 }
 
-get_career_totals(a_draft_stats)
 
-get_per_game_averages <- function(input_stats){
-  input_stats %>% transmute(player_name = player_name, 
+
+#takes stat totals and retuns per game averages
+get_per_game_averages <- function(input_stats_totals){
+  input_stats_totals %>% transmute(player_name = player_name, 
                             games = games,
                             ppg = round(pts / games, digits = 1),
                             orpg = round(oreb / games, digits = 1),
@@ -31,22 +37,9 @@ get_per_game_averages <- function(input_stats){
 }
 
 
-career_a_draft_stats <- arrange(filter(get_per_game_averages(get_career_totals(a_draft_stats)), games > 9 ), desc(ppg))
-
-a_draft_all_seasons 
-
-test <- arrange(a_draft_all_seasons, desc(ppg)) %>% mutate(rank = )
-test
-
-a_draft_all_seasons <- filter(a_draft_stats, games > 5, `3pa` > 2)
+#`3pct_percentile_values` <- quantile(a_draft_all_seasons[[12]], probs = seq(0, 1, 0.01), na.rm = FALSE, names = TRUE)
 
 
 
-
-
-`3pct_percentile_values` <- quantile(a_draft_all_seasons[[12]], probs = seq(0, 1, 0.01), na.rm = FALSE, names = TRUE)
-
-
-
-`3pct_percentiles` <- as_tibble(0:100) %>% rename(percentile = value) %>% cbind(as_tibble(`3pct_percentile_values`)) %>% 
-  mutate(next_percentile_value = lead(value, 1))
+#`3pct_percentiles` <- as_tibble(0:100) %>% rename(percentile = value) %>% cbind(as_tibble(`3pct_percentile_values`)) %>% 
+#  mutate(next_percentile_value = lead(value, 1))
