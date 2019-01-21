@@ -93,7 +93,7 @@ format_percentiles <- function(data, column_name_with_value, column_name_to_colo
     data,
     column_name_with_value,
     column_name_to_color,
-    color = styleInterval(c(10, 20, 80, 90), c('#ff0000', '#bf353a', '#564e5b', '#386dc1', '#0011ff')),
+    color = styleInterval(c(10, 20, 30, 40, 50, 60, 70, 80, 90), c('#ff0000', '#cc0033', '#a60059', '#8c0073', '#800080', '#73008c', '#5900a6', '#4000bf',  '#2600d9', '#0000ff')),
     fontWeight = 'bold'
   )
 }
@@ -107,7 +107,7 @@ raw_stats %>%
   get_totals() %>%
   get_per_game_averages() %>% 
   get_stats_with_percentiles() %>%
-  filter(player_name %in% read_csv("~/Desktop/r_projects/cac_basketball/2019_a_draft_player_list.csv")[[1]])
+  filter(player_name %in% read_csv("~/Desktop/r_projects/cac_basketball/data/2019_a_draft_player_list.csv")[[1]])
 }
 
 

@@ -42,4 +42,6 @@ get_many_player_career_stats <- function(lower_limit, upper_limit){
 }
 
 
-
+rbind(get_many_player_career_stats(7001, 8000), read_csv("~/Desktop/r_projects/cac_basketball/data/all_cac_raw.csv")) %>% 
+  arrange(player_id) %>%
+  write_csv("~/Desktop/r_projects/cac_basketball/data/all_cac_raw.csv")
