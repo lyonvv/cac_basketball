@@ -99,4 +99,16 @@ format_percentiles <- function(data, column_name_with_value, column_name_to_colo
 }
 
 
+get_2019_a_draft_stats <- function(raw_stats){
+raw_stats %>% 
+  get_tidy_total_stats() %>% 
+  filter(level == "A Draft 4v4") %>%
+  group_by(player_id, player_name) %>%
+  get_totals() %>%
+  get_per_game_averages() %>% 
+  get_stats_with_percentiles() %>%
+  filter(player_name %in% read_csv("~/Desktop/r_projects/cac_basketball/2019_a_draft_player_list.csv")[[1]])
+}
+
+
 

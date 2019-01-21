@@ -4,16 +4,7 @@ library(DT)
 source("~/Desktop/r_projects/cac_basketball/cleaning_cac_career_stats.R")
 source("~/Desktop/r_projects/cac_basketball/aggregate_stats.R")
 
-
-stats <- read_csv("~/Desktop/r_projects/cac_basketball/all_cac_players_ever_stats.csv") %>% 
-  get_tidy_total_stats() %>% 
-  filter(level == "A Draft 4v4") %>%
-  group_by(player_id, player_name) %>%
-  get_totals() %>%
-  get_per_game_averages() %>% 
-  get_stats_with_percentiles() %>%
-  filter(player_name %in% read_csv("~/Desktop/r_projects/cac_basketball/2019_a_draft_player_list.csv")[[1]])
-
+stats <- read_csv("~/Desktop/r_projects/cac_basketball/a_draft_2019_career_averages_for_shiny.csv")
 
 shinyApp(
 ui = DTOutput("mytable"),
